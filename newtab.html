@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Groupback</title>
+    <link rel="stylesheet" href="newtab.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Groupback home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>Groupback</span>
+        </a>
+        <p class="privacy-note"><span></span> Local only · no account · no tracking</p>
+      </header>
+
+      <section class="hero" id="top">
+        <p class="eyebrow">Your browsing memory</p>
+        <h1>Pick up where you left off.</h1>
+        <p class="lede">Every visit and every saved tab group, ready when a new tab opens.</p>
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" /></svg>
+          <input id="search" type="search" placeholder="Search titles, sites, or groups" autocomplete="off" />
+          <kbd>/</kbd>
+        </label>
+        <div class="stats" aria-live="polite">
+          <span><strong id="group-count">0</strong> saved groups</span>
+          <span><strong id="history-count">0</strong> history cards loaded</span>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="groups-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Restart recovery</p>
+            <h2 id="groups-title">Saved tab groups</h2>
+          </div>
+          <span class="section-hint">Captured automatically</span>
+        </div>
+        <div id="group-grid" class="group-grid"></div>
+        <div id="group-empty" class="empty" hidden>
+          <span class="empty-icon" aria-hidden="true">↗</span>
+          <div><strong>No groups saved yet</strong><p>Create a Chrome tab group and Groupback will remember it.</p></div>
+        </div>
+      </section>
+
+      <section class="section history-section" aria-labelledby="history-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Browser history</p>
+            <h2 id="history-title">Recently visited</h2>
+          </div>
+          <span class="section-hint">Newest first</span>
+        </div>
+        <div id="history-grid" class="history-grid"></div>
+        <div id="history-empty" class="empty" hidden>
+          <span class="empty-icon" aria-hidden="true">⌕</span>
+          <div><strong>No matching history</strong><p>Try another title, domain, or group name.</p></div>
+        </div>
+        <button id="load-more" class="load-more" type="button">Load older history</button>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="newtab.js"></script>
+  </body>
+</html>

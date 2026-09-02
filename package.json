@@ -1,0 +1,16 @@
+{
+  "name": "groupback",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A private new-tab history dashboard that restores Chrome tab groups after restart.",
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check.mjs && node --check background.js && node --check newtab.js && node --check shared.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Amossse/groupback.git"
+  },
+  "license": "MIT"
+}
