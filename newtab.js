@@ -144,7 +144,7 @@ function renderGroups() {
     restore.className = "restore-button";
     restore.type = "button";
     restore.dataset.action = "restore";
-    restore.textContent = "Restore group";
+    restore.textContent = group.sessionId ? "Restore session" : "Restore group";
     const remove = document.createElement("button");
     remove.className = "delete-button";
     remove.type = "button";
@@ -262,6 +262,18 @@ async function restoreGroup(group, button) {
   button.textContent = "Restoring…";
   const tabIds = [];
   try {
+    if (group.sessionId) {
+      try {
+        await chrome.sessions.restore(group.sessionId);
+        const currentTab = await chrome.tabs.getCurrent();
+        if (currentTab?.id) await chrome.tabs.remove(currentTab.id);
+        return;
+      } catch (error) {
+        // Session IDs expire; the saved URLs remain a reliable fallback.
+        console.warn("[Groupback] Native session expired; restoring saved URLs", error);
+      }
+    }
+
     const currentWindow = await chrome.windows.getCurrent();
     for (const tab of group.tabs) {
       const created = await chrome.tabs.create({
@@ -284,7 +296,7 @@ async function restoreGroup(group, button) {
     console.error("[Groupback] Could not restore tab group", error);
     if (tabIds.length > 0) await chrome.tabs.remove(tabIds).catch(() => null);
     button.disabled = false;
-    button.textContent = "Restore group";
+    button.textContent = group.sessionId ? "Restore session" : "Restore group";
     showToast("That group could not be restored");
   }
 }

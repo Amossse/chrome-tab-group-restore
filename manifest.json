@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Groupback",
-  "version": "0.1.0",
-  "description": "Turn every new tab into a private history dashboard and restore saved tab groups in one click.",
+  "version": "0.1.1",
+  "description": "Turn every new tab into a private history dashboard and restore tab groups or recently closed windows in one click.",
   "minimum_chrome_version": "102",
-  "permissions": ["history", "storage", "tabs", "tabGroups"],
+  "permissions": ["history", "sessions", "storage", "tabs", "tabGroups"],
   "background": {
     "service_worker": "background.js",
     "type": "module"

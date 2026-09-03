@@ -5,7 +5,7 @@
 [![CI](https://github.com/Amossse/groupback/actions/workflows/ci.yml/badge.svg)](https://github.com/Amossse/groupback/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-1f2430)](LICENSE)
 
-**Groupback turns Chrome's New Tab page into a fast visual history and tab-group recovery dashboard.** It automatically remembers open tab groups, keeps their names, colors, tab order, and URLs, then restores a complete group with one click after a browser or computer restart.
+**Groupback turns Chrome's New Tab page into a fast visual history and tab-group recovery dashboard.** It automatically remembers open tab groups and imports multi-tab windows from Chrome's recently closed sessions, then restores them with one click.
 
 No account. No cloud. No analytics. No build step.
 
@@ -43,6 +43,7 @@ Groupback uses standard Manifest V3 browser APIs:
 
 - `chrome_url_overrides` replaces the New Tab page.
 - `chrome.history` provides searchable page history.
+- `chrome.sessions` captures recently closed multi-tab windows and restores them natively while available.
 - `chrome.tabs` and `chrome.tabGroups` capture and recreate groups.
 - `chrome.storage.local` keeps up to 200 recent group snapshots on your device.
 
@@ -53,6 +54,7 @@ Only `http://` and `https://` pages are stored or restored. Incognito tabs and b
 | Permission | Why it is needed |
 | --- | --- |
 | `history` | Read and search the history cards shown on New Tab. |
+| `sessions` | Find and restore recently closed multi-tab windows shown in Chrome's history menu. |
 | `tabs` | Read titles and URLs inside a tab group and reopen them. |
 | `tabGroups` | Read group names/colors and recreate groups. |
 | `storage` | Save group snapshots locally across restarts. |
@@ -61,7 +63,7 @@ Groupback requests no host permissions, injects no content scripts, loads no rem
 
 ## Known limits
 
-- Groupback can only remember groups observed after the extension is installed.
+- Open tab groups must be observed after installation; recently closed multi-tab windows already present in Chrome's session history are also captured.
 - Restored pages start with fresh navigation state; unsaved form data and per-tab back/forward history are not available through the extension API.
 - Chrome does not allow New Tab overrides in Incognito, so Groupback deliberately ignores Incognito data.
 - The 200 most recent group snapshots are retained to stay within local extension storage limits.

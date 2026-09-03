@@ -8,6 +8,7 @@ assert.equal(manifest.manifest_version, 3);
 assert.equal(manifest.chrome_url_overrides.newtab, "newtab.html");
 assert.deepEqual(manifest.host_permissions, undefined);
 assert.ok(manifest.permissions.includes("history"));
+assert.ok(manifest.permissions.includes("sessions"));
 assert.ok(manifest.permissions.includes("tabGroups"));
 
 const referencedFiles = [

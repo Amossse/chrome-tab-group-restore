@@ -3,6 +3,7 @@ import {
   groupSignature,
   isRestorableUrl,
   mergeGroupSnapshots,
+  recentlyClosedWindowSnapshot,
 } from "./shared.js";
 
 const LOG_PREFIX = "[Groupback]";
@@ -20,7 +21,10 @@ async function writeState(state) {
 
 async function captureOpenGroups() {
   const state = await readState();
-  const groups = await chrome.tabGroups.query({});
+  const [groups, recentSessions] = await Promise.all([
+    chrome.tabGroups.query({}),
+    chrome.sessions.getRecentlyClosed(),
+  ]);
   const incoming = [];
 
   for (const group of groups) {
@@ -53,6 +57,12 @@ async function captureOpenGroups() {
       updatedAt: Date.now(),
     });
   }
+
+  incoming.push(
+    ...recentSessions
+      .map((session) => recentlyClosedWindowSnapshot(session))
+      .filter(Boolean),
+  );
 
   await writeState({
     sessionId: state.sessionId,
@@ -125,6 +135,8 @@ chrome.tabGroups.onRemoved.addListener((group) => {
     console.error(`${LOG_PREFIX} Could not close group snapshot`, error),
   );
 });
+
+chrome.sessions.onChanged.addListener(scheduleCapture);
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type !== "captureGroups") return false;
