@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — 2026-09-03
+
+- Move the page tagline into the header and remove the oversized hero section.
+- Bring search and saved tab groups higher into the initial viewport.
+
 ## 0.1.2 — 2026-09-03
 
 - Hide single-tab snapshots from the recovery section.

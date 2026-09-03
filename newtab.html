@@ -11,18 +11,18 @@
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
     <main class="shell">
-      <header class="topbar">
-        <a class="brand" href="#top" aria-label="Groupback home">
-          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
-          <span>Groupback</span>
-        </a>
+      <header class="topbar" id="top">
+        <div class="brand-lockup">
+          <a class="brand" href="#top" aria-label="Groupback home">
+            <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span>Groupback</span>
+          </a>
+          <h1 class="header-tagline">Pick up where you left off.</h1>
+        </div>
         <p class="privacy-note"><span></span> Local only · no account · no tracking</p>
       </header>
 
-      <section class="hero" id="top">
-        <p class="eyebrow">Your browsing memory</p>
-        <h1>Pick up where you left off.</h1>
-        <p class="lede">Every visit and every saved tab group, ready when a new tab opens.</p>
+      <section class="controls" aria-label="Search browsing memory">
         <label class="search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" /></svg>
           <input id="search" type="search" placeholder="Search titles, sites, or groups" autocomplete="off" />
