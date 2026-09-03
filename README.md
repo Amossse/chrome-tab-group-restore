@@ -1,8 +1,8 @@
-# Groupback — Restore Tab Groups from Every New Tab
+# Groupback — Chrome Tab Group Restore & Session Manager
 
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest_V3-4285F4?logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3)
 [![Privacy: local only](https://img.shields.io/badge/privacy-local_only-2f855a)](PRIVACY.md)
-[![CI](https://github.com/Amossse/groupback/actions/workflows/ci.yml/badge.svg)](https://github.com/Amossse/groupback/actions/workflows/ci.yml)
+[![CI](https://github.com/Amossse/chrome-tab-group-restore/actions/workflows/ci.yml/badge.svg)](https://github.com/Amossse/chrome-tab-group-restore/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-1f2430)](LICENSE)
 
 **Groupback turns Chrome's New Tab page into a fast visual history and tab-group recovery dashboard.** It automatically remembers open tab groups and imports multi-tab windows from Chrome's recently closed sessions, then restores them with one click.
@@ -26,13 +26,13 @@ Groupback makes recovery the default surface:
 ## Install in 60 seconds
 
 ```bash
-git clone https://github.com/Amossse/groupback.git
+git clone https://github.com/Amossse/chrome-tab-group-restore.git
 ```
 
 1. Open `chrome://extensions` in Chrome, Edge, Brave, Arc, or another Chromium browser.
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
-4. Select the cloned `groupback` folder.
+4. Select the cloned `chrome-tab-group-restore` folder.
 5. Open a new tab.
 
 There is no dependency install or build command.
