@@ -27,9 +27,22 @@ test("group signatures change with tab order", () => {
 
 test("new group snapshots replace old records and stay newest first", () => {
   const old = { id: "one", updatedAt: 1, tabs: [{ url: "https://old.example" }] };
-  const newer = { id: "one", updatedAt: 3, tabs: [{ url: "https://new.example" }] };
-  const second = { id: "two", updatedAt: 2, tabs: [{ url: "https://two.example" }] };
+  const newer = {
+    id: "one",
+    updatedAt: 3,
+    tabs: [{ url: "https://new.example" }, { url: "https://newer.example" }],
+  };
+  const second = {
+    id: "two",
+    updatedAt: 2,
+    tabs: [{ url: "https://two.example" }, { url: "https://second.example" }],
+  };
   assert.deepEqual(mergeGroupSnapshots([old, second], [newer]), [newer, second]);
+});
+
+test("single-tab snapshots are hidden", () => {
+  const single = { id: "one", updatedAt: 1, tabs: [{ url: "https://one.example" }] };
+  assert.deepEqual(mergeGroupSnapshots([single], []), []);
 });
 
 test("recently closed multi-tab windows become restorable snapshots", () => {

@@ -64,6 +64,7 @@ Groupback requests no host permissions, injects no content scripts, loads no rem
 ## Known limits
 
 - Open tab groups must be observed after installation; recently closed multi-tab windows already present in Chrome's session history are also captured.
+- Recovery cards require at least two restorable tabs; single-tab entries remain available in browser history.
 - Restored pages start with fresh navigation state; unsaved form data and per-tab back/forward history are not available through the extension API.
 - Chrome does not allow New Tab overrides in Incognito, so Groupback deliberately ignores Incognito data.
 - The 200 most recent group snapshots are retained to stay within local extension storage limits.

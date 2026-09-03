@@ -46,7 +46,7 @@ export function mergeGroupSnapshots(existing, incoming, limit = GROUP_LIMIT) {
   for (const group of incoming) byId.set(group.id, group);
 
   return [...byId.values()]
-    .filter((group) => group.tabs.length > 0)
+    .filter((group) => group.tabs.length > 1)
     .sort((a, b) => b.updatedAt - a.updatedAt)
     .slice(0, limit);
 }

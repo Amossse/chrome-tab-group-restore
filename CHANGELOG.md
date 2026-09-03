@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 — 2026-09-03
+
+- Hide single-tab snapshots from the recovery section.
+
 ## 0.1.1 — 2026-09-03
 
 - Capture recently closed multi-tab windows shown in Chrome's history menu.
