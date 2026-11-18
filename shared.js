@@ -10,6 +10,15 @@ export function isRestorableUrl(value) {
   }
 }
 
+export function uniqueHistoryItems(items) {
+  const seen = new Set();
+  return items.filter((item) => {
+    if (seen.has(item.url)) return false;
+    seen.add(item.url);
+    return true;
+  });
+}
+
 export function groupSignature(group) {
   return JSON.stringify([
     group.title || "",

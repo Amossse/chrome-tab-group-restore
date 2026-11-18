@@ -1,11 +1,18 @@
-import { STORAGE_KEY, isRestorableUrl } from "./shared.js";
+import { STORAGE_KEY, isRestorableUrl, uniqueHistoryItems } from "./shared.js";
 
 const PAGE_SIZE = 120;
 const demoMode = new URLSearchParams(location.search).has("demo");
 const elements = {
   search: document.querySelector("#search"),
+  groupsToggle: document.querySelector("#groups-toggle"),
+  groupsContent: document.querySelector("#groups-content"),
+  clearGroups: document.querySelector("#clear-groups"),
   groupGrid: document.querySelector("#group-grid"),
   groupEmpty: document.querySelector("#group-empty"),
+  historyToggle: document.querySelector("#history-toggle"),
+  historyContent: document.querySelector("#history-content"),
+  clearHistory: document.querySelector("#clear-history"),
+  dedupeHistory: document.querySelector("#dedupe-history"),
   historyGrid: document.querySelector("#history-grid"),
   historyEmpty: document.querySelector("#history-empty"),
   loadMore: document.querySelector("#load-more"),
@@ -123,8 +130,10 @@ function renderGroups() {
     const tabList = document.createElement("div");
     tabList.className = "tab-list";
     for (const tab of group.tabs.slice(0, 4)) {
-      const row = document.createElement("div");
+      const row = document.createElement("button");
       row.className = "tab-row";
+      row.type = "button";
+      row.dataset.url = tab.url;
       row.append(makeSiteMark(tab.url));
       const text = document.createElement("span");
       text.textContent = tab.title || hostname(tab.url);
@@ -137,7 +146,6 @@ function renderGroups() {
       rest.textContent = `+${group.tabs.length - 4} more`;
       tabList.append(rest);
     }
-
     const actions = document.createElement("div");
     actions.className = "group-actions";
     const restore = document.createElement("button");
@@ -236,8 +244,7 @@ async function loadHistory(reset = false) {
       maxResults: PAGE_SIZE,
     });
     const safeBatch = batch.filter((item) => isRestorableUrl(item.url));
-    const seen = new Set(historyItems.map((item) => item.url));
-    historyItems.push(...safeBatch.filter((item) => !seen.has(item.url)));
+    historyItems = uniqueHistoryItems([...historyItems, ...safeBatch]);
     const oldest = batch.at(-1)?.lastVisitTime;
     // Chrome history has no cursor, so continue just before the oldest loaded visit.
     if (oldest) historyEndTime = oldest - 1;
@@ -312,7 +319,45 @@ async function forgetGroup(group) {
   showToast(`Forgot ${group.title}`);
 }
 
+function setSectionExpanded(toggle, content, expanded) {
+  toggle.setAttribute("aria-expanded", String(expanded));
+  content.hidden = !expanded;
+}
+
+async function clearGroups() {
+  if (groups.length === 0 || !confirm("Clear all saved tab groups?")) return;
+  groups = [];
+  if (!demoMode) {
+    const result = await chrome.storage.local.get(STORAGE_KEY);
+    const state = result[STORAGE_KEY] || {};
+    await chrome.storage.local.set({ [STORAGE_KEY]: { ...state, groups: [] } });
+  }
+  renderGroups();
+  showToast("Cleared saved tab groups");
+}
+
+async function clearHistory() {
+  if (historyItems.length === 0 || !confirm("Clear all Chrome browsing history? This cannot be undone.")) return;
+  if (!demoMode) await chrome.history.deleteAll();
+  historyItems = [];
+  elements.loadMore.hidden = true;
+  renderHistory();
+  showToast("Cleared browsing history");
+}
+
+function dedupeHistory() {
+  const previousCount = historyItems.length;
+  historyItems = uniqueHistoryItems(historyItems);
+  renderHistory();
+  showToast(`Removed ${previousCount - historyItems.length} duplicate record${previousCount - historyItems.length === 1 ? "" : "s"}`);
+}
+
 elements.groupGrid.addEventListener("click", (event) => {
+  const tab = event.target.closest("button[data-url]");
+  if (tab) {
+    if (!demoMode) void chrome.tabs.create({ url: tab.dataset.url });
+    return;
+  }
   const button = event.target.closest("button[data-action]");
   const card = event.target.closest("[data-id]");
   if (!button || !card) return;
@@ -321,6 +366,16 @@ elements.groupGrid.addEventListener("click", (event) => {
   if (button.dataset.action === "restore") void restoreGroup(group, button);
   if (button.dataset.action === "delete") void forgetGroup(group);
 });
+
+elements.groupsToggle.addEventListener("click", () => {
+  setSectionExpanded(elements.groupsToggle, elements.groupsContent, elements.groupsContent.hidden);
+});
+elements.historyToggle.addEventListener("click", () => {
+  setSectionExpanded(elements.historyToggle, elements.historyContent, elements.historyContent.hidden);
+});
+elements.clearGroups.addEventListener("click", () => void clearGroups());
+elements.clearHistory.addEventListener("click", () => void clearHistory());
+elements.dedupeHistory.addEventListener("click", dedupeHistory);
 
 elements.historyGrid.addEventListener("click", async (event) => {
   const card = event.target.closest("button[data-url]");

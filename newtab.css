@@ -222,10 +222,52 @@ kbd {
 
 .section-heading {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 22px;
 }
+
+.section-toggle {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.section-chevron {
+  color: var(--muted);
+  font-size: 30px;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 160ms;
+}
+
+.section-toggle[aria-expanded="true"] .section-chevron { transform: rotate(90deg); }
+
+.section-tools {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.section-action {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0 12px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.section-action:hover { border-color: rgba(45, 48, 55, 0.28); color: var(--ink); }
+.danger-action:hover { border-color: rgba(223, 103, 94, 0.4); color: #b54942; }
 
 .section-kicker { margin-bottom: 6px; }
 
@@ -238,7 +280,6 @@ h2 {
 }
 
 .section-hint {
-  padding-bottom: 4px;
   color: var(--muted);
   font-size: 12px;
 }
@@ -306,7 +347,14 @@ h2 {
   padding: 6px 0;
   color: #555963;
   font-size: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
 }
+
+.tab-row:hover { color: var(--ink); }
 
 .tab-row > span:last-child {
   overflow: hidden;
@@ -435,7 +483,7 @@ button:disabled { cursor: wait; opacity: 0.65; }
   background: rgba(255, 255, 255, 0.35);
 }
 
-.empty[hidden], .load-more[hidden] { display: none; }
+.empty[hidden], .load-more[hidden], [hidden] { display: none !important; }
 .empty p { margin: 4px 0 0; font-size: 12px; }
 .empty strong { color: var(--ink); font-size: 13px; }
 
@@ -489,6 +537,7 @@ button:disabled { cursor: wait; opacity: 0.65; }
   .history-card { border-right: 0; }
   .section-heading { align-items: start; }
   .section-hint { display: none; }
+  .section-tools { flex-wrap: wrap; justify-content: flex-end; }
 }
 
 @media (max-width: 420px) {

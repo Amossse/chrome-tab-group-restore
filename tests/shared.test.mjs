@@ -5,6 +5,7 @@ import {
   isRestorableUrl,
   mergeGroupSnapshots,
   recentlyClosedWindowSnapshot,
+  uniqueHistoryItems,
 } from "../shared.js";
 
 test("only web URLs can be restored", () => {
@@ -13,6 +14,13 @@ test("only web URLs can be restored", () => {
   assert.equal(isRestorableUrl("chrome://settings"), false);
   assert.equal(isRestorableUrl("javascript:alert(1)"), false);
   assert.equal(isRestorableUrl("not a url"), false);
+});
+
+test("history items keep only the newest record for each URL", () => {
+  const newest = { url: "https://example.com", lastVisitTime: 3 };
+  const older = { url: "https://example.com", lastVisitTime: 1 };
+  const other = { url: "https://other.example", lastVisitTime: 2 };
+  assert.deepEqual(uniqueHistoryItems([newest, other, older]), [newest, other]);
 });
 
 test("group signatures change with tab order", () => {

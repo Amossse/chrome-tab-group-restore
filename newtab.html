@@ -36,33 +36,50 @@
 
       <section class="section" aria-labelledby="groups-title">
         <div class="section-heading">
-          <div>
+          <button id="groups-toggle" class="section-toggle" type="button" aria-expanded="false" aria-controls="groups-content">
+            <span class="section-chevron" aria-hidden="true">›</span>
+            <span>
             <p class="section-kicker">Restart recovery</p>
             <h2 id="groups-title">Saved tab groups</h2>
+            </span>
+          </button>
+          <div class="section-tools">
+            <span class="section-hint">Captured automatically</span>
+            <button id="clear-groups" class="section-action danger-action" type="button">Clear all</button>
           </div>
-          <span class="section-hint">Captured automatically</span>
         </div>
-        <div id="group-grid" class="group-grid"></div>
-        <div id="group-empty" class="empty" hidden>
-          <span class="empty-icon" aria-hidden="true">↗</span>
-          <div><strong>No groups saved yet</strong><p>Create a Chrome tab group and Groupback will remember it.</p></div>
+        <div id="groups-content" hidden>
+          <div id="group-grid" class="group-grid"></div>
+          <div id="group-empty" class="empty" hidden>
+            <span class="empty-icon" aria-hidden="true">↗</span>
+            <div><strong>No groups saved yet</strong><p>Create a Chrome tab group and Groupback will remember it.</p></div>
+          </div>
         </div>
       </section>
 
       <section class="section history-section" aria-labelledby="history-title">
         <div class="section-heading">
-          <div>
+          <button id="history-toggle" class="section-toggle" type="button" aria-expanded="true" aria-controls="history-content">
+            <span class="section-chevron" aria-hidden="true">›</span>
+            <span>
             <p class="section-kicker">Browser history</p>
             <h2 id="history-title">Recently visited</h2>
+            </span>
+          </button>
+          <div class="section-tools">
+            <span class="section-hint">Newest first</span>
+            <button id="dedupe-history" class="section-action" type="button">Remove duplicates</button>
+            <button id="clear-history" class="section-action danger-action" type="button">Clear all</button>
           </div>
-          <span class="section-hint">Newest first</span>
         </div>
-        <div id="history-grid" class="history-grid"></div>
-        <div id="history-empty" class="empty" hidden>
-          <span class="empty-icon" aria-hidden="true">⌕</span>
-          <div><strong>No matching history</strong><p>Try another title, domain, or group name.</p></div>
+        <div id="history-content">
+          <div id="history-grid" class="history-grid"></div>
+          <div id="history-empty" class="empty" hidden>
+            <span class="empty-icon" aria-hidden="true">⌕</span>
+            <div><strong>No matching history</strong><p>Try another title, domain, or group name.</p></div>
+          </div>
+          <button id="load-more" class="load-more" type="button">Load older history</button>
         </div>
-        <button id="load-more" class="load-more" type="button">Load older history</button>
       </section>
     </main>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>

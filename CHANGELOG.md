@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 — 2026-11-18
+
+- Collapse saved groups by default and keep recently visited pages expanded.
+- Open individual saved tabs directly from a group card.
+- Clear saved groups or browsing history in one action.
+- Remove duplicate recently visited records while keeping the newest entry.
+
 ## 0.1.3 — 2026-09-03
 
 - Move the page tagline into the header and remove the oversized hero section.
